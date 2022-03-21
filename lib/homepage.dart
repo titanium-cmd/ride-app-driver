@@ -28,11 +28,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   void updateDriverLocation(){
-    socket!.emit(DRIVER_LOCATION_UPDATE, {
+    socket!.emit(driverLocationUpdate, {
       "longitude": -0.1869644,
       "latitude": 5.6037168,
     });
-    socket!.on(DRIVER_LOCATION_UPDATE, (data){
+    socket!.on(driverLocationUpdate, (data){
       debugPrint('res:: '+data.toString());
       setState(() {
         response = data['success'].toString();
@@ -40,11 +40,11 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void driverAtPickup(){
-    socket!.emit(DRIVER_AT_PICKUP, {
+  void signalDriverAtPickup(){
+    socket!.emit(driverAtPickup, {
       "ride_id": resDet['ride_id'],
     });
-    socket!.on(DRIVER_AT_PICKUP, (data){
+    socket!.on(driverAtPickup, (data){
       debugPrint('res:: '+data.toString());
       setState(() {
         response = data['success'].toString();
@@ -52,11 +52,11 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void driverRideReject(){
-    socket!.emit(DRIVER_RIDE_REJECT, {
+  void signalDriverRideReject(){
+    socket!.emit(driverRideReject, {
       "ride_id": resDet['ride_id'],
     });
-    socket!.on(DRIVER_AT_PICKUP, (data){
+    socket!.on(driverRideReject, (data){
       debugPrint('res:: '+data.toString());
       setState(() {
         response = data['success'].toString();
@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
 
   void acceptRide(){
     // debugPrint('accept ride resData:: '+resDet.toString());
-    socket!.emit(DRIVER_RIDE_ACCEPTANCE, {
+    socket!.emit(driverRideAcceptance, {
       "client_socket_id": resDet['client_socket_id'],
       "user_id": resDet['user_id'],
       "ride_id":resDet['ride_id']
@@ -74,10 +74,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void startRide(){
-    socket!.emit(RIDE_INITIATION, {
+    socket!.emit(rideInitiation, {
       "ride_id": resDet['ride_id']
     });
-    socket!.on(RIDE_INITIATION, (data){
+    socket!.on(rideInitiation, (data){
       debugPrint('res:: '+data.toString());
       setState(() {
         response = data['success'].toString();
@@ -86,10 +86,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void endRide(){
-    socket!.emit(RIDE_COMPLETION, {
+    socket!.emit(rideCompletion, {
       "ride_id": resDet['ride_id']
     });
-    socket!.on(RIDE_COMPLETION, (data){
+    socket!.on(rideCompletion, (data){
       debugPrint('res:: '+data.toString());
       setState(() {
         response = data['success'].toString();
@@ -98,10 +98,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void cancelRide(){
-    socket!.emit(RIDE_CANCELLATION, {
+    socket!.emit(rideCancellation, {
       "ride_id": resDet['ride_id']
     });
-    socket!.on(RIDE_CANCELLATION, (data){
+    socket!.on(rideCancellation, (data){
       debugPrint('res:: '+data.toString());
       setState(() {
         response = data['success'].toString();
@@ -109,17 +109,17 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void driverActivenessUpdate (){
+  void singalDriverActivenessUpdate (){
     //if you want to update the is online attribute
-    socket!.emit(DRIVER_ACTIVENESS_UPDATE, {
+    socket!.emit(driverActivenessUpdate, {
       "is_online": true
     });
 
     //if you want to update is_available attribute.
-    socket!.emit(DRIVER_ACTIVENESS_UPDATE, {
+    socket!.emit(driverActivenessUpdate, {
       "is_available": true
     });
-    socket!.on(DRIVER_ACTIVENESS_UPDATE, (data){
+    socket!.on(driverActivenessUpdate, (data){
       debugPrint('res:: '+data.toString());
       setState(() {
         response = data['success'].toString();
@@ -129,7 +129,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _promoCodeController = TextEditingController();
     debugPrint(socket!.id);
     return Scaffold(
       appBar: AppBar(

@@ -44,29 +44,29 @@ class SocketHelper extends ChangeNotifier{
         notifyListeners();
       });
 
-      socket.on(RIDE_ON_DISPATCH, (data){
+      socket.on(rideOnDispatch, (data){
         debugPrint('dispatch: '+data.toString());
         setMessage('DISPATCH: New location shared on this room');
         notifyListeners();
       });
 
-      socket.on(RIDE_CANCELLATION, (data){
+      socket.on(rideCancellation, (data){
 
       });
 
-      socket.on(RIDE_ON_TRIP, (data){
+      socket.on(rideOnTrip, (data){
         debugPrint('ontrip: '+data.toString());
         _response = 'ONTRIP: New location shared on this room';
         notifyListeners();
       });
 
-      socket.on(DRIVER_RIDE_ACCEPTANCE, (data){
+      socket.on(driverRideAcceptance, (data){
         debugPrint('driver acceptance: '+ data.toString());
         resData = data;
         notifyListeners();
       });
       
-      socket.on(RIDE_REQUEST_DRIVER_NOTIFICATION, (data){
+      socket.on(rideRequestDriverNotification, (data){
         debugPrint('notification init: ${data.toString()}');
         _response = 'A new ride request available. Accept ride';
         notifyListeners();
@@ -82,15 +82,5 @@ class SocketHelper extends ChangeNotifier{
       debugPrint('err ${e.toString()}');
       return null;
     }
-  }
-
-  void add() {
-
-    notifyListeners();
-  }
-
-  void removeAll() {
-
-    notifyListeners();
   }
 }
