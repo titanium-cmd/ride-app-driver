@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void signalDriverAtPickup(){
+  void emitDriverAtPickup(){
     socket!.emit(driverAtPickup, {
       "ride_id": resDet['ride_id'],
     });
@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void signalDriverRideReject(){
+  void emitDriverRideReject(){
     socket!.emit(driverRideReject, {
       "ride_id": resDet['ride_id'],
     });
