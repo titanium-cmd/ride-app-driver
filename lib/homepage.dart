@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  // call for new driver location
+  // call when driver wants to update location
   void updateDriverLocation(){
     socket!.emit(driverLocationUpdate, {
       "longitude": -0.1869644,
@@ -49,14 +49,14 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  // call when driver rejects a pending ride
+  // call when driver wants to rejects a pending ride
   void rideReject(){
     socket!.emit(driverRideReject, {
       "ride_id": resDet['ride_id'],
     });
   }
 
-  // call when driver accepts a pending ride
+  // call when driver wants to accepts a pending ride
   void acceptRide(){
     socket!.emit(driverRideAcceptance, {
       "client_socket_id": resDet['client_socket_id'],
@@ -64,21 +64,21 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  // call when driver starts a ride
+  // call when driver wants to start a ride
   void startRide(){
     socket!.emit(rideInitiation, {
       "ride_id": resDet['ride_id']
     });
   }
 
-  // call when driver ends a ride
+  // call when driver wants to end a ride
   void endRide(){
     socket!.emit(rideCompletion, {
       "ride_id": resDet['ride_id']
     });
   }
 
-  // call when driver cancels a ride
+  // call when driver wants to cancel a ride
   void cancelRide(){
     socket!.emit(rideCancellation, {
       "ride_id": resDet['ride_id']
