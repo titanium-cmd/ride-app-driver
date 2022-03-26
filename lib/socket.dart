@@ -106,7 +106,7 @@ class SocketHelper extends ChangeNotifier{
         notifyListeners();
       });
 
-      //is triggered when the client is disconnected from the Server 
+      //is triggered when the driver is disconnected from the Server 
       socket.on('disconnect', (data) {
         debugPrint('disconnect" '+data);
         notifyListeners();
