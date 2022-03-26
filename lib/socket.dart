@@ -50,7 +50,7 @@ class SocketHelper extends ChangeNotifier{
 
       });
 
-      //is triggered when a driver cancels a ride.
+      //is triggered when a driver or customer cancels a ride.
       socket.on(rideCancellation, (data){
         debugPrint('cancelled:: '+data.toString());
 
