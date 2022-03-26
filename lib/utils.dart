@@ -9,3 +9,4 @@ const driverLocationUpdate = 'driver-location-update';
 const driverAtPickup = 'driver-at-pickup';
 const driverAtDestination = 'driver-at-destination';
 const rideCancellation = 'ride-cancellation';
+const chatMessage = 'chat-message'; // (not implemented yet)
