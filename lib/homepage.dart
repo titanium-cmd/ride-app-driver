@@ -22,94 +22,71 @@ class _HomePageState extends State<HomePage> {
   
   @override
   void initState() {
-    socket = SocketHelper().connectSocket(role: widget.role);
+    socket = SocketHelper().connectSocket();
     debugPrint('${socket!.id} socket');
     super.initState();
   }
 
+  // call for new driver location
   void updateDriverLocation(){
     socket!.emit(driverLocationUpdate, {
       "longitude": -0.1869644,
       "latitude": 5.6037168,
     });
-    socket!.on(driverLocationUpdate, (data){
-      debugPrint('res:: '+data.toString());
-      setState(() {
-        response = data['success'].toString();
-      });
-    });
   }
 
+  // call when driver gets to pickup location
   void emitDriverAtPickup(){
     socket!.emit(driverAtPickup, {
       "ride_id": resDet['ride_id'],
     });
-    socket!.on(driverAtPickup, (data){
-      debugPrint('res:: '+data.toString());
-      setState(() {
-        response = data['success'].toString();
-      });
+  }
+
+  // call when driver gets to destination
+  void emitDriverAtDestination(){
+    socket!.emit(driverAtDestination, {
+      "ride_id": resDet['ride_id'],
     });
   }
 
-  void emitDriverRideReject(){
+  // call when driver rejects a pending ride
+  void rideReject(){
     socket!.emit(driverRideReject, {
       "ride_id": resDet['ride_id'],
     });
-    socket!.on(driverRideReject, (data){
-      debugPrint('res:: '+data.toString());
-      setState(() {
-        response = data['success'].toString();
-      });
-    });
   }
 
+  // call when driver accepts a pending ride
   void acceptRide(){
-    // debugPrint('accept ride resData:: '+resDet.toString());
     socket!.emit(driverRideAcceptance, {
       "client_socket_id": resDet['client_socket_id'],
-      "user_id": resDet['user_id'],
       "ride_id":resDet['ride_id']
     });
   }
 
+  // call when driver starts a ride
   void startRide(){
     socket!.emit(rideInitiation, {
       "ride_id": resDet['ride_id']
     });
-    socket!.on(rideInitiation, (data){
-      debugPrint('res:: '+data.toString());
-      setState(() {
-        response = data['success'].toString();
-      });
-    });
   }
 
+  // call when driver ends a ride
   void endRide(){
     socket!.emit(rideCompletion, {
       "ride_id": resDet['ride_id']
     });
-    socket!.on(rideCompletion, (data){
-      debugPrint('res:: '+data.toString());
-      setState(() {
-        response = data['success'].toString();
-      });
-    });
   }
 
+  // call when driver cancels a ride
   void cancelRide(){
     socket!.emit(rideCancellation, {
       "ride_id": resDet['ride_id']
     });
-    socket!.on(rideCancellation, (data){
-      debugPrint('res:: '+data.toString());
-      setState(() {
-        response = data['success'].toString();
-      });
-    });
   }
 
-  void singalDriverActivenessUpdate (){
+  // call when driver wants to update activeness (whether is_online or is_available)
+  void activenessUpdate (){
     //if you want to update the is online attribute
     socket!.emit(driverActivenessUpdate, {
       "is_online": true
@@ -118,12 +95,6 @@ class _HomePageState extends State<HomePage> {
     //if you want to update is_available attribute.
     socket!.emit(driverActivenessUpdate, {
       "is_available": true
-    });
-    socket!.on(driverActivenessUpdate, (data){
-      debugPrint('res:: '+data.toString());
-      setState(() {
-        response = data['success'].toString();
-      });
     });
   }
 

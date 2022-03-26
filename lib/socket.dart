@@ -17,7 +17,7 @@ class SocketHelper extends ChangeNotifier{
   
   String get response => _response;
 
-  Socket? connectSocket({String? role}){
+  Socket? connectSocket(){
     try {
       String driverToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJfaWQiOjEwLCJwaG9uZV9udW1iZXIiOiIyMzMyMDQ5Mjc1OTAiLCJyb2xlIjoiZHJpdmVyIn0sImlhdCI6MTY0NzQ0MTgwNSwiZXhwIjoxNjQ3NzAxMDA1fQ.JN2vI65qTZ4o_xv0LIg9sNVyaK7hYAYWttdcn74hitg';
       socket = io("ws://10.0.2.2:4000", <String, dynamic>{
@@ -44,38 +44,72 @@ class SocketHelper extends ChangeNotifier{
         notifyListeners();
       });
 
-      socket.on(rideOnDispatch, (data){
-        debugPrint('dispatch: '+data.toString());
-        setMessage('DISPATCH: New location shared on this room');
-        notifyListeners();
+      //is triggered when a driver updates activesness (whether is_online or is_available).
+      socket.on(driverActivenessUpdate, (data){
+        debugPrint('activessness:: '+data.toString());
+
       });
 
+      //is triggered when a driver cancels a ride.
       socket.on(rideCancellation, (data){
+        debugPrint('cancelled:: '+data.toString());
 
       });
 
-      socket.on(rideOnTrip, (data){
-        debugPrint('ontrip: '+data.toString());
-        _response = 'ONTRIP: New location shared on this room';
-        notifyListeners();
+      //is triggered when a driver updates location.
+      socket.on(driverLocationUpdate, (data){
+        debugPrint('location update:: '+data.toString());
+        
       });
 
+      //is triggered when a driver gets pickup location.
+      socket.on(driverAtPickup, (data){
+        debugPrint('at pickup:: '+data.toString());
+
+      });
+
+      //is triggered when a driver gets destination.
+      socket.on(driverAtDestination, (data){
+        debugPrint('at destination:: '+data.toString());
+
+      });
+
+      //is triggered when a driver rejects a ride.
+      socket.on(driverRideReject, (data){
+        debugPrint('rejected:: '+data.toString());
+        
+      });
+
+      //is triggered when a driver completes a ride
+      socket.on(rideCompletion, (data){
+        debugPrint('completed:: '+data.toString());
+
+      });
+
+      //is triggered when a driver starts a ride
+      socket.on(rideInitiation, (data){
+        debugPrint('ride initialized:: '+data.toString());
+
+      });
+
+      //is triggered when a driver accepts a ride
       socket.on(driverRideAcceptance, (data){
         debugPrint('driver acceptance: '+ data.toString());
         resData = data;
         notifyListeners();
       });
       
+      //is triggered when there's a new ride request for the driver
       socket.on(rideRequestDriverNotification, (data){
         debugPrint('notification init: ${data.toString()}');
         _response = 'A new ride request available. Accept ride';
         notifyListeners();
       });
-      //listens when the client is disconnected from the Server 
+
+      //is triggered when the client is disconnected from the Server 
       socket.on('disconnect', (data) {
-        // _response = 'A new ride request available. Accept ride';
-        notifyListeners();
         debugPrint('disconnect" '+data);
+        notifyListeners();
       });
       return socket;
     } catch (e) {
